@@ -13,12 +13,11 @@ class GreetingController {
 
     @GetMapping("/hello")
     fun hello(
-            @RequestParam(value = "name", required = false, defaultValue = "world") name: String,
+            @RequestParam(value = "name", required = false, defaultValue = "google.com") name: String,
             model: Model): String {
-        val targetHost = "google.com"
+        val targetHost: String = name
         val pingResult = Ping().execute(targetHost)
         model.addAttribute("pingHost", targetHost)
-        model.addAttribute("name", name)
         model.addAttribute("pingRes", pingResult)
         return "greeting"
     }
