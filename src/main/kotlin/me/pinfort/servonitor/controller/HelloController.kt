@@ -15,10 +15,24 @@ class GreetingController {
     fun hello(
             @RequestParam(value = "name", required = false, defaultValue = "google.com") name: String,
             model: Model): String {
-        val targetHost: String = name
-        val pingResult = Ping().execute(targetHost)
-        model.addAttribute("pingHost", targetHost)
-        model.addAttribute("pingRes", pingResult)
+        val inputHost: String = name
+        val targetHosts: MutableList<String> = mutableListOf(
+                "google.com",
+                "pinfort.me",
+                "twitter.com",
+                "facebook.com"
+        )
+        targetHosts.add(inputHost)
+        val ping = ArrayList<ArrayList<String>>()
+        targetHosts.forEach {
+            val host = ArrayList<String>()
+            val pingResult = Ping().execute(it)
+            host.add(it)
+            host.add(pingResult.toString())
+            ping.add(host)
+        }
+
+        model.addAttribute("ping", ping)
         return "greeting"
     }
 }
