@@ -2,8 +2,8 @@ package me.pinfort.servonitor.commands
 
 import java.net.InetAddress;
 
-class Ping {
-    fun execute(hostName: String, args: Array<String>? = null): Boolean {
+class Ping: Commands() {
+    override fun execute(hostName: String, args: Map<String, String>?): Boolean {
         return try {
             val address = InetAddress.getByName(hostName)
 
