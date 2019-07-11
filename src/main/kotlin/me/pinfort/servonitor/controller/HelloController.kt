@@ -1,6 +1,7 @@
 package me.pinfort.servonitor.controller
 
 import me.pinfort.servonitor.commands.Ping
+import me.pinfort.servonitor.commands.http.Get
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -32,7 +33,17 @@ class GreetingController {
             ping.add(host)
         }
 
+        val http = ArrayList<ArrayList<String>>()
+        targetHosts.forEach {
+            val host = ArrayList<String>()
+            val httpResult = Get().execute(it)
+            host.add(it)
+            host.add(httpResult.toString())
+            http.add(host)
+        }
+
         model.addAttribute("ping", ping)
+        model.addAttribute("http", http)
         return "greeting"
     }
 }
