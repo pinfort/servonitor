@@ -16,6 +16,8 @@ class Get: Commands() {
         }
 
 
-        return mapOf()
+        return mapOf(
+                "code" to code
+        )
     }
 }
