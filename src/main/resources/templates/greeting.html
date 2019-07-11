@@ -41,6 +41,29 @@
                             </table>
                         </div>
                     </div>
+                    <div class="card">
+                        <div class="card-header" th:text="'Ping check'">
+                            Http check
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <td  scope="col" th:text="'Host'">Host</td>
+                                    <td  scope="col" th:text="'Result'">Result</td>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="http : ${http}">
+                                    <td th:text="${http[0]}">example.com</td>
+                                    <td>
+                                        <span th:class="${http[1]} == 'true' ? 'badge badge-success' : 'badge badge-danger'" th:text="${http[1]} == 'true' ? 'Success' : 'Failed'">Success</span>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div><!-- /.container -->
         </main>
