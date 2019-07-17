@@ -9,7 +9,8 @@ class Get: Commands() {
         val config: Map<String, String> = config(args ?: mapOf())
         val isSsl: Boolean = config["isSsl"]?.toBoolean() ?: false
         val protocol: String = if(isSsl) "https" else "http"
-        val actualStatusCode: Int = Fuel.get("$protocol://$hostName").response().second.statusCode
+        val path: String = config["path"] ?: ""
+        val actualStatusCode: Int = Fuel.get("$protocol://$hostName$path").response().second.statusCode
         return actualStatusCode.toString() == config["code"]
     }
 
@@ -26,9 +27,23 @@ class Get: Commands() {
             false
         }
 
+        val path: String = if (args.containsKey("path")) {
+            val path: String = args["path"] ?: ""
+            val normalizedPath: String
+            normalizedPath = if (!path.startsWith("/")){
+                "/$path"
+            } else {
+                path
+            }
+            normalizedPath
+        } else {
+            ""
+        }
+
         return mapOf(
                 "code" to code,
-                "isSsl" to isSsl.toString()
+                "isSsl" to isSsl.toString(),
+                "path" to path
         )
     }
 }
