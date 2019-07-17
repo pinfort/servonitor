@@ -7,7 +7,9 @@ import me.pinfort.servonitor.commands.Commands
 class Get: Commands() {
     override fun execute(hostName: String, args: Map<String, String>?): Boolean {
         val config: Map<String, String> = config(args ?: mapOf())
-        val actualStatusCode: Int = Fuel.get("http://$hostName").response().second.statusCode
+        val isSsl: Boolean = config["isSsl"]?.toBoolean() ?: false
+        val protocol: String = if(isSsl) "https" else "http"
+        val actualStatusCode: Int = Fuel.get("$protocol://$hostName").response().second.statusCode
         return actualStatusCode.toString() == config["code"]
     }
 
@@ -18,8 +20,15 @@ class Get: Commands() {
             "200"
         }
 
+        val isSsl: Boolean = if (args.containsKey("isSsl")) {
+            args["isSsl"]?.toBoolean() ?: false
+        } else {
+            false
+        }
+
         return mapOf(
-                "code" to code
+                "code" to code,
+                "isSsl" to isSsl.toString()
         )
     }
 }
