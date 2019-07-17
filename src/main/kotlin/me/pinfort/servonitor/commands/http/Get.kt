@@ -13,7 +13,7 @@ class Get: Commands() {
         return actualStatusCode.toString() == config["code"]
     }
 
-    fun config(args: Map<String, String>): Map<String, String> {
+    private fun config(args: Map<String, String>): Map<String, String> {
         val code: String = if (args.containsKey("expectedCode")) {
             args["expectedCode"] ?: "200"
         } else {
